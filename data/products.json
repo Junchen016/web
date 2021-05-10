@@ -1,1 +1,16 @@
+[
+  {
+  "name":"iphone"
+  "price":31800
+  },
 
+    {
+  "name":"Pixel"
+  "price":12000
+  },
+
+    {
+  "name":"chromecast"
+  "price":1440
+  },
+]
