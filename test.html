@@ -1,12 +1,474 @@
 
 <html>
-<head>
-	<title>test</title>
 
+<head>
+	<meta charset="utf-8"/>
+	<title>Fitness</title>
+	
+	
+	<script type="text/javascript">
+	var count,kphcount;
+	var kphcount=2;
+	let timer,id,id2,dialog,btn_Go;
+		let timermin,timersec,dialogstop,btn_Pausine,btn_extend;
+
+	window.onload=function(){
+		dialog=document.getElementById("dialog");
+		timer = document.getElementById("timer");
+		btn_Go = document.getElementById("btn_Go");
+		navtime = document.getElementById("nav_time");
+		footerbtn = document.getElementById("footer_btn");
+
+	};
+	
+	function showCountDownDialog(){
+		dialog.style.display="block";
+		id = window.setInterval(countdown,1000); //setInterval 每一秒都做一次cooldown
+	//	id = window.setInterval(countdown,50); //setInterval 每一秒都做一次cooldown
+	};
+	
+	function countdown(){
+	timer.innerHTML=timer.innerHTML  - 1 ;
+	if (timer.innerHTML == -1){
+		clearInterval(id);
+		dialog.style.display="none";
+		btn_Go.style.display="none";
+		footerbtn.style.display="block";
+		navtime.style.display="block";
+		startTime();
+		disstart()
+	}
+	}
+	function showPausingDialog(){
+	stopTime();
+	disstop();
+		dialogstop=document.getElementById("dialogstop");
+		timermin = document.getElementById("timerMin");
+		timersec = document.getElementById("timerSec");
+
+		dialogstop.style.display="block";
+		id2 = window.setInterval(countdownstop,1000); //setInterval 每一秒都做一次cooldown
+
+	
+	};
+	function countdownstop(){
+	if (timersec.innerHTML == 00 && timermin.innerHTML>0 ){
+		console.log(timersec.innerHTML);
+		timermin.innerHTML=timermin.innerHTML  - 1 ;
+		timersec.innerHTML =timersec.innerHTML + 60;
+	}
+
+	if (timersec.innerHTML > 0){
+		console.log(timersec.innerHTML);
+		timersec.innerHTML =timersec.innerHTML-1;
+		if(timersec.innerHTML.length == 1){ 
+			timersec.innerHTML = "0"+timersec.innerHTML; 
+		}	 
+	}
+	
+	if (timersec.innerHTML == 00 && timermin.innerHTML==0 ){
+		clearInterval(id2);
+		timermin.innerHTML='2';
+		timersec.innerHTML ='00';
+		dialogstop.style.display="none";
+	}
+	}
+	
+	function extendPausing(){
+	timermin.innerHTML='2';
+	timersec.innerHTML ='00';
+	}
+	
+	function continuePausing(){
+		clearInterval(id2);
+		dialogstop.style.display="none";
+		timermin.innerHTML='2';
+		timersec.innerHTML ='00';
+		startTime();
+		disstart()
+	}
+	
+	function homePausing(){
+	parent.location.reload();
+	}
+	
+
+	
+		function stopPausing(){
+		clearInterval(id2);
+		dialogstop.style.display="none";
+		timermin.innerHTML='2';
+		timersec.innerHTML ='00';
+		startTime();
+
+	}
+	
+	
+	
+	
+	
+	var hour,minute,second;
+//時 分 秒 
+hour=minute=second=0;
+var dashboardTime;
+ //重置函式 
+ function ResetTime() {
+ window.clearInterval(dashboardTime);
+ hour=minute=second=0; 
+ document.getElementById('timetext').value='00時00分00秒';} 
+ //開始函式
+ function startTime() { 
+ dashboardTime=setInterval(starttimer,1000);
+ //每隔50毫秒執行一次timer函式 
+ } 
+ 
+ //計時函式 
+ function starttimer() { 
+ second=second+1; 
+ if(second>=60) { 
+ second=0; 
+ minute=minute+1; 
+ } 
+ if(minute>=60) { 
+ minute=0; 
+ hour=hour+1;
+ } 
+ document.getElementById('timetext').value=hour+'時'+minute+'分'+second+'秒'; } 
+ //暫停函式 
+ function stopTime() { window.clearInterval(dashboardTime); }
+	
+//初始化變數 
+var km,millikm;
+km=millikm=0;
+var speedint;
+ //重置函式 
+ function disreset() {
+ window.clearInterval(speedint);
+ km=millikm=0; 
+ document.getElementById('distancetext').value='0.00km'; } 
+ //開始函式
+ function disstart() { 
+ speedint=setInterval(distimer,1000);
+ //每隔1000毫秒執行一次timer函式 
+ } 
+ 
+ //計時函式 
+ function distimer(){ 
+ millikm=millikm+kphcount; 
+ 
+ if(millikm<10){
+	document.getElementById('distancetext').value=km+'.0'+millikm+'KM'; 
+ } 
+ 
+ if(millikm>=10){ 
+	document.getElementById('distancetext').value=km+'.'+millikm+'KM'; 
+ }
+ 
+ if(millikm>=100) 
+ { millikm=0; 
+   km=km+1; 
+   document.getElementById('distancetext').value=km+'.'+millikm+'KM'; 
+ }
+ 
+}
+ //暫停函式 
+ function disstop() { window.clearInterval(speedint); }	
+	
+
+function btn_speedUp(){
+	count=document.getElementById("kphtext").innerHTML;
+	if(count>=20){
+		count=20;
+	}else{
+		count=parseInt(count)+1;
+		kphcount = kphcount +3	
+	}
+	document.getElementById("kphtext").innerHTML=count;
+
+
+ }
+function btn_speedDown(){
+
+	count=document.getElementById("kphtext").innerHTML;
+	if(count<=1){
+		count=1;
+	}else{
+		count=parseInt(count)-1;
+		kphcount = kphcount -3
+	}	
+	document.getElementById("kphtext").innerHTML=count;
+
+	
+}
+	
+	function btn_media() {
+	if (testiframe.style.display== "block"){
+	testiframe.style.display="none";
+	}else{
+	testiframe.style.display="block";
+	 document.getElementById('testiframe').src = 'https://www.youtube.com/embed/KhkXUbSSQBI?autoplay=1&mute=1';
+	}
+	
+}
+	
+	
+	</script>
+	
+	
+	<style type="text/css">
+	.dialog{
+	width:300px;
+	height:300px;
+	background-color: #FF5809; 
+	border: none;
+	color: white;
+	text-align:center;
+	text-decoration: none;
+
+	font-size: 70px;
+	border-radius: 200px 200px 200px 200px;
+	position:fixed;top:100px;left:50%;transform:translate(-150px,150px);
+	display:none;
+	}
+	.btn_Go{	
+	width:300px;
+	height:300px;
+	background-color: #008CBA; 
+	border: none;
+	color: white;
+	text-align: center;
+	text-decoration: none;
+	display: block;
+	font-size: 50px;
+	border-radius: 200px 200px 200px 200px;
+	position:fixed;top:100px;left:50%;transform:translate(-150px,150px);
+	
+	
+	}
+		.btn_Go:active{
+	left:50%;transform:translate(-150px,150px);
+	  background-color: #008CBA;
+	box-shadow: 0px 10px #666;
+}
+	
+	.nav{
+		display:none;
+	}
+	.footer{
+		display:none;
+	}
+	.speedUp{
+	width:70px;
+	height:70px;
+	background-color: #008CBA; 
+	border: none;
+	color: white;
+	text-align: center;
+	text-decoration: none;
+
+	font-size: 20px;
+	border-radius: 50px 50px 50px 50px;
+	position:fixed;top:100px;
+	}
+	.speedUp:active{
+	  background-color: #008CBA;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);}
+	
+	
+	.speedDown{
+	width:70px;
+	height:70px;
+	background-color:#4CAF50; 
+	border: none;
+	color: white;
+	text-align: center;
+	text-decoration: none;
+
+	font-size: 20px;
+	border-radius: 50px 50px 50px 50px;
+	position:fixed;top:100px;transform:translate(90px,0px);
+	}
+	
+	.speedDown:active{
+	transform:translate(90px,0px);
+	  background-color: #4CAF50;
+	box-shadow: 0px 5px #666;
+}
+	.stop{
+	width:70px;
+	height:70px;
+	background-color:#f44336; 
+	border: none;
+	color: white;
+	text-align: center;
+	text-decoration: none;
+
+	font-size: 10px;
+	border-radius: 50px 50px 50px 50px;
+	position:fixed;top:100px;transform:translate(180px,0px);
+	}
+	
+		.stop:active{
+	transform:translate(180px,0px);
+	  background-color: #f44336;
+	box-shadow: 0px 5px #666;
+}
+	
+	.media{
+	width:70px;
+	height:70px;
+	background-color:#555555; 
+	border: none;
+	color: white;
+	text-align: center;
+	text-decoration: none;
+
+	font-size: 10px;
+	border-radius: 50px 50px 50px 50px;
+	position:fixed;top:100px;transform:translate(270px,0px);
+	}
+	
+	.media:active{
+	transform:translate(270px,0px);
+	  background-color: #555555;
+	box-shadow: 0px 5px #666;
+}
+
+		.dialogstop{
+	position:fixed;top:100px;left:50%;transform:translate(-200px,0px);width:400px;
+	padding:10px;border:1px solid #888888;
+	background-color:#eeeeee;box-shadow:0px 0px 10px #000000;
+	display:none;
+	}
+	.youtubew{
+
+		display:none;
+		transform:translate(0px,350px);
+
+		}
+	.speednumber{
+	background-color: #c4c4c4;
+	}
+	.workoutkph{
+
+	}
+	.kphtext{
+	position: absolute;
+    top: 9%; 
+
+    transform: translate(50%,-50%);
+    text-transform: uppercase;
+    font-family: verdana;
+    font-size: 30px;
+    font-weight: 700;
+    color: #f5f5f5;
+    text-shadow: 1px 1px 1px #919191,
+        1px 2px 1px #919191,
+        1px 3px 1px #919191,
+        1px 4px 1px #919191,
+        1px 5px 1px #919191,
+        1px 6px 1px #919191,
+        1px 7px 1px #919191,
+        1px 8px 1px #919191,
+        1px 9px 1px #919191,
+        1px 10px 1px #919191,
+    1px 18px 6px rgba(16,16,16,0.4),
+    1px 22px 10px rgba(16,16,16,0.2),
+    1px 25px 35px rgba(16,16,16,0.2),
+    1px 30px 60px rgba(16,16,16,0.4);
+	}
+		.kphtextu{
+	position: absolute;
+    top: 9%; 
+
+    transform: translate(90%,-50%);
+    text-transform: uppercase;
+    font-family: verdana;
+    font-size: 30px;
+    font-weight: 700;
+    color: #f5f5f5;
+    text-shadow: 1px 1px 1px #919191,
+        1px 2px 1px #919191,
+        1px 3px 1px #919191,
+        1px 4px 1px #919191,
+        1px 5px 1px #919191,
+        1px 6px 1px #919191,
+        1px 7px 1px #919191,
+        1px 8px 1px #919191,
+        1px 9px 1px #919191,
+        1px 10px 1px #919191,
+    1px 18px 6px rgba(16,16,16,0.4),
+    1px 22px 10px rgba(16,16,16,0.2),
+    1px 25px 35px rgba(16,16,16,0.2),
+    1px 30px 60px rgba(16,16,16,0.4);
+	}
+	
+	.workouttime{
+		position:fixed;top:200px;transform:translate(0px,0px);
+	  font-family: "Inter", sans-serif;
+  letter-spacing: -2px;
+  font-weight: 700;
+  font-size: 50px;
+  margin-left: 10px;
+  color: #333436;
+	}
+	.workoutdis{
+			position:fixed;top:300px;transform:translate(0px,0px);
+	  font-family: "Inter", sans-serif;
+  letter-spacing: -2px;
+  font-weight: 700;
+  font-size: 50px;
+  margin-left: 10px;
+  color: #333436;
+	}
+
+
+
+
+
+	</style>
+	
 </head>
 
-<body>  
-	<button>Click</button>
+
+
+<body body bgcolor="#cccccc">  
+	
+	<button onclick="showCountDownDialog();" class="btn_Go" id="btn_Go" >GO</button>
+	
+	<div id="dialog" class="dialog">
+	 <br/>倒數 <span id = "timer" >3</span> 
+	</div>
+<nav class="nav" id="nav_time">
+	<input type="text" class="workouttime" id="timetext" value="0時0分0秒" readonly><br>
+	<input type="text" class="workoutdis" id="distancetext" value="0KM" readonly><br>
+	<div id="dialog" class="workoutkph">
+	 <span id = "kphtext"  class="kphtext" >1</span><span class="kphtextu">    kph</span>
+	</div>
+</nav>
+<footer class="footer" id="footer_btn">
+	<button onclick="btn_speedUp();" class="speedUp" id="speedUp" >↑</button>
+	<button onclick="btn_speedDown();" class="speedDown" id="speedDown" >↓</button>
+	<button onclick="showPausingDialog();" class="stop" id="stop" >PAUSE</button>
+	<button onclick="btn_media();" class="media" id="media" >MEDIA</button>
+</footer>
+
+	<div id="dialogstop" class="dialogstop">
+	 <div>Pausing</div>
+	<div>Your exercise data will be reset in</div>
+	<div class="speednumber"><span id = "timerMin" >2</span>:<span id = "timerSec" >00</span></div>
+	<button onclick="extendPausing();" class="btn_extend" id="btn_extend" >EXTEND</button>
+	<button onclick="continuePausing();" class="btn_continue" id="btn_continue" >CONTINUE</button>
+	<button onclick="homePausing();" class="btn_home" id="btn_home"  >HOME</button>
+	<button onclick="stopPausing();" class="stop_home" id="stop_home" style="display:none" >STOP</button>
+	</div>
+	<div>
+	<iframe class="youtubew" id="testiframe" width="400" height="300" src="">
+	</div>
+
+	
+	
 </body>
 
 </html>
